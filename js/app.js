@@ -47,6 +47,26 @@ class IntImApp {
     // Update layer distribution bar
     this.layerDist.render(this.currentAllocations, modelSpec.totalLayers);
 
+    // Update total layers label
+    const totalLayersLabel = document.getElementById('labelTotalLayers');
+    if (totalLayersLabel) {
+      totalLayersLabel.textContent = `${modelSpec.totalLayers} / ${modelSpec.totalLayers} Layers Distributed`;
+    }
+
+    // Update Model Specs Bar
+    const modelSpecsBar = document.getElementById('modelSpecsBar');
+    if (modelSpecsBar) {
+      modelSpecsBar.innerHTML = `
+        <span>Model: <strong>${modelSpec.name.split(' ')[0]}</strong></span>
+        <span>&bull;</span>
+        <span>Layers: <strong>${modelSpec.totalLayers}</strong></span>
+        <span>&bull;</span>
+        <span>VRAM Req: <strong>${modelSpec.totalParamsGB} GB</strong></span>
+        <span>&bull;</span>
+        <span>Context: <strong>${(modelSpec.contextWindow / 1000).toFixed(0)}k</strong></span>
+      `;
+    }
+
     // Update telemetry gauges
     this.telemetryHUD.updateMetrics(nodes, modelSpec);
 
@@ -182,12 +202,14 @@ class IntImApp {
     const promptInput = document.getElementById('promptInput');
     const tokenOutput = document.getElementById('tokenStreamOutput');
     const pipelineHopsContainer = document.getElementById('pipelineHopsContainer');
+    const hopStatusLabel = document.getElementById('labelHopStatus');
 
     if (runBtn) {
       runBtn.addEventListener('click', async () => {
         if (this.executor.isGenerating) {
           this.executor.cancel();
           runBtn.innerHTML = 'Run Inference';
+          if (hopStatusLabel) hopStatusLabel.textContent = 'Cancelled';
           return;
         }
 
@@ -198,6 +220,7 @@ class IntImApp {
         runBtn.classList.add('btn-danger');
         tokenOutput.innerHTML = '';
         pipelineHopsContainer.innerHTML = '';
+        if (hopStatusLabel) hopStatusLabel.textContent = 'Transmitting Activations...';
 
         const modelSpec = this.getCurrentModel();
 
@@ -205,7 +228,7 @@ class IntImApp {
           onPipelineHop: (hop) => {
             if (hop.sourceNodeId && hop.targetNodeId && hop.sourceNodeId !== hop.targetNodeId) {
               const srcNode = this.mesh.getNodes().find(n => n.id === hop.sourceNodeId);
-              this.topology3D.emitTensorPacket(hop.sourceNodeId, hop.targetNodeId, srcNode ? srcNode.color : '#2563eb');
+              this.topology3D.emitTensorPacket(hop.sourceNodeId, hop.targetNodeId, srcNode ? srcNode.color : '#0d9488');
             }
 
             const hopEl = document.createElement('div');
@@ -238,12 +261,14 @@ class IntImApp {
           onComplete: () => {
             runBtn.innerHTML = 'Run Inference';
             runBtn.classList.remove('btn-danger');
+            if (hopStatusLabel) hopStatusLabel.textContent = 'Complete (100% Pipeline Streamed)';
           },
 
           onError: (err) => {
             tokenOutput.innerHTML += `\n\n<span style="color: #e11d48;">[Pipeline Error]: ${err.message}</span>`;
             runBtn.innerHTML = 'Run Inference';
             runBtn.classList.remove('btn-danger');
+            if (hopStatusLabel) hopStatusLabel.textContent = 'Pipeline Error';
           }
         });
       });
