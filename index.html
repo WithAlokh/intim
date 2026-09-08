@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IntIm • Decentralized P2P AI Mesh Engine</title>
+  <meta name="description" content="IntIm (Intelligent Interconnected Mesh) - Decentralized peer-to-peer GPU and VRAM pooling engine for running 70B+ LLMs on consumer devices.">
+
+  <!-- Clean Professional Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS Design System -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- Header -->
+    <header class="intim-header">
+      <div class="brand-section">
+        <div class="brand-logo-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">IntIm</h1>
+          <div class="brand-subtitle">Intelligent Interconnected Mesh &bull; P2P GPU Pool</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="cluster-status-badge">
+          <span class="status-dot"></span>
+          <span>Mesh Active: <strong>intim-mesh-alpha-7x</strong></span>
+        </div>
+        <button id="btnOpenSDK" class="canvas-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14.6 16.6l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4zm-5.2 0L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4z"/>
+          </svg>
+          Python SDK
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="intim-main-grid">
+      
+      <!-- LEFT COLUMN: Node Roster & Network Simulator -->
+      <section class="grid-column">
+        
+        <!-- Active Node Roster Panel -->
+        <div class="hud-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              Connected Peer Nodes
+            </div>
+            <span class="panel-badge" id="badgeNodeCount">4 Online</span>
+          </div>
+
+          <!-- Dynamic Node List Container -->
+          <div class="node-list-container" id="nodeListContainer">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Add Custom Peer Node Form -->
+        <div class="hud-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              Add Peer Device
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+            <input type="text" id="newNodeName" class="cyber-textarea" style="height: 34px; padding: 6px 10px;" placeholder="Device Name (e.g. My Laptop)">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <input type="number" id="newNodeVRAM" class="cyber-textarea" style="height: 34px; padding: 6px 10px;" placeholder="VRAM (GB)" value="8">
+              <input type="number" id="newNodeTFLOPS" class="cyber-textarea" style="height: 34px; padding: 6px 10px;" placeholder="TFLOPS" value="12">
+            </div>
+            <button id="btnAddNode" class="cyber-btn-primary" style="justify-content: center; width: 100%;">
+              Join Cluster Mesh
+            </button>
+          </div>
+        </div>
+
+        <!-- Fault Tolerance Simulator -->
+        <div class="hud-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              Fault Tolerance Test
+            </div>
+            <span class="panel-badge" style="color: var(--accent-emerald);">Self-Healing</span>
+          </div>
+          <div class="sim-controls-grid">
+            <button id="btnKillRandom" class="sim-action-btn btn-danger">
+              Drop Random Node
+            </button>
+            <button id="btnSpikeLatency" class="sim-action-btn">
+              Latency Toggle
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- CENTER COLUMN: 3D Topology & Layer Sharding Map -->
+      <section class="grid-column">
+        
+        <!-- 3D Spatial Topology Visualizer -->
+        <div class="hud-panel" style="flex: 1; display: flex; flex-direction: column;">
+          <div class="panel-header">
+            <div class="panel-title">
+              Mesh Network Topology
+            </div>
+            <span class="panel-badge" style="color: var(--accent-emerald);">Real-time</span>
+          </div>
+
+          <div class="mesh-canvas-wrapper" style="flex: 1;">
+            <canvas id="meshTopologyCanvas"></canvas>
+            
+            <div class="canvas-overlay-hud">
+              <div class="hud-stat-pill">Protocol: <span>WebRTC / P2P</span></div>
+              <div class="hud-stat-pill">Compression: <span>INT8 Dynamic Quantization</span></div>
+              <div class="hud-stat-pill">Parallelism: <span>Pipeline + Ring-Attention</span></div>
+            </div>
+
+            <div class="canvas-controls">
+              <div class="hud-stat-pill" style="pointer-events: auto;">
+                Drag to Rotate
+              </div>
+            </div>
+          </div>
+
+          <!-- Layer Sharding Breakdown Bar -->
+          <div class="layer-dist-container" style="margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 500; color: var(--text-secondary);">
+              <span>Model Layer Partitioning:</span>
+              <span id="labelTotalLayers" style="color: var(--accent-primary); font-weight: 600;">32 / 32 Layers Distributed</span>
+            </div>
+            
+            <div class="layer-sharding-bar" id="layerShardingBar">
+              <!-- Rendered dynamically -->
+            </div>
+
+            <div class="layer-legend" id="layerLegendContainer">
+              <!-- Legend items rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Live Pipeline Hop Trace Strip -->
+          <div style="margin-top: 0.85rem;">
+            <div style="font-size: 0.72rem; font-weight: 500; color: var(--text-muted); margin-bottom: 4px;">
+              Activation Hop Stream:
+            </div>
+            <div class="pipeline-hops-container" id="pipelineHopsContainer">
+              <div class="pipeline-hop-node">Ready for inference...</div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN: Prompt Workspace & Telemetry Meters -->
+      <section class="grid-column telemetry-column">
+        
+        <!-- Live Cluster Telemetry Gauges -->
+        <div class="hud-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              Cluster Telemetry
+            </div>
+            <span class="panel-badge" style="color: var(--accent-primary);">Live VRAM</span>
+          </div>
+
+          <div class="telemetry-row">
+            <div class="meter-card">
+              <div class="meter-header">
+                <span>Pooled VRAM</span>
+                <span>Capacity</span>
+              </div>
+              <div class="meter-value-huge" id="metricPooledVRAM">
+                52.0 <span class="meter-unit">GB</span>
+              </div>
+              <div class="meter-progress-track">
+                <div class="meter-progress-fill fill-cyan" id="meterVRAMFill" style="width: 75%;"></div>
+              </div>
+            </div>
+
+            <div class="meter-card">
+              <div class="meter-header">
+                <span>Compute Power</span>
+                <span>Peak</span>
+              </div>
+              <div class="meter-value-huge" id="metricClusterTFLOPS">
+                51.4 <span class="meter-unit">TFLOPS</span>
+              </div>
+              <div class="meter-progress-track">
+                <div class="meter-progress-fill fill-emerald" id="meterTFLOPSFill" style="width: 60%;"></div>
+              </div>
+            </div>
+
+            <div class="meter-card">
+              <div class="meter-header">
+                <span>Network Latency</span>
+                <span>Average</span>
+              </div>
+              <div class="meter-value-huge" id="metricAvgLatency">
+                14 <span class="meter-unit">ms RTT</span>
+              </div>
+            </div>
+
+            <div class="meter-card">
+              <div class="meter-header">
+                <span>Generation Speed</span>
+                <span>Velocity</span>
+              </div>
+              <div class="meter-value-huge" id="metricTokensSec" style="color: var(--accent-emerald);">
+                0.0 <span class="meter-unit">tok/s</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Distributed Inference Lab Panel -->
+        <div class="hud-panel" style="flex: 1; display: flex; flex-direction: column;">
+          <div class="panel-header">
+            <div class="panel-title">
+              Distributed Inference
+            </div>
+          </div>
+
+          <!-- Model Selector -->
+          <div class="model-selector-bar">
+            <div class="model-select-wrapper">
+              <span style="font-size: 0.75rem; font-weight: 500; color: var(--text-muted);">Model:</span>
+              <select id="modelSelect" class="cyber-select">
+                <option value="llama-3-70b">Llama-3-70B-Instruct (40 GB VRAM)</option>
+                <option value="deepseek-r1-67b">DeepSeek-R1-67B (34 GB VRAM)</option>
+                <option value="mistral-nemo-12b">Mistral-NeMo-12B (14 GB VRAM)</option>
+                <option value="intim-micro-demo">IntIm-Micro-Demo (4.5 GB VRAM)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Prompt Input -->
+          <div class="prompt-input-wrapper">
+            <textarea id="promptInput" class="cyber-textarea" placeholder="Enter prompt to execute across the P2P Mesh...">Write a Python script to connect to IntIm cluster and generate responses across 4 distributed laptops.</textarea>
+            
+            <div class="prompt-actions-bar">
+              <div class="preset-pills">
+                <span class="preset-pill" data-prompt="How many 'r's are in the word strawberry? Inspect bytes directly.">Strawberry Test</span>
+                <span class="preset-pill" data-prompt="Write a Python script to connect to IntIm cluster and generate responses across 4 distributed laptops.">Python Code</span>
+                <span class="preset-pill" data-prompt="Explain quantum superposition in simple terms.">Quantum Physics</span>
+                <span class="preset-pill" data-prompt="Namaste! IntIm mesh cluster se yeh response kaise generate ho raha hai?">Hindi Test</span>
+              </div>
+              <button id="btnRunInference" class="cyber-btn-primary">
+                Run Inference
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Streaming Output -->
+          <div style="margin-top: 0.85rem; flex: 1; display: flex; flex-direction: column;">
+            <div style="font-size: 0.72rem; font-weight: 500; color: var(--text-muted); margin-bottom: 4px;">
+              Distributed Streaming Output:
+            </div>
+            <div class="token-stream-container" id="tokenStreamOutput">
+              <span style="color: #64748b;">Awaiting prompt execution across peer nodes...</span>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Python SDK Modal -->
+  <div class="cyber-modal-overlay" id="sdkModalOverlay">
+    <div class="cyber-modal">
+      <div class="modal-header">
+        <div class="panel-title">
+          IntIm Python SDK Reference
+        </div>
+        <button class="modal-close-btn" id="modalCloseBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.84rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+          Use the official <code style="color: var(--accent-primary); background: var(--bg-secondary); padding: 2px 6px; border-radius: 4px; font-weight: 600;">intim</code> Python package to turn any laptop into a worker node or run 70B models over local WiFi:
+        </p>
+        
+        <div class="code-snippet-box">
+<span style="color: #64748b;"># 1. Install IntIm client</span>
+<span style="color: #38bdf8;">pip install</span> intim
+
+<span style="color: #64748b;"># 2. Join cluster from terminal (Laptop/Mac/Desktop):</span>
+$ intim join --mesh intim-mesh-alpha-7x --vram 16GB
+
+<span style="color: #64748b;"># 3. Python Code to run 70B model across peer devices:</span>
+<span style="color: #f43f5e;">import</span> intim
+
+<span style="color: #64748b;"># Discover and connect to nearby peers</span>
+cluster = intim.MeshCluster.discover(network_id=<span style="color: #10b981;">"intim-mesh-alpha-7x"</span>)
+print(f<span style="color: #10b981;">"Connected to {len(cluster.nodes)} nodes with {cluster.total_vram_gb} GB pooled VRAM!"</span>)
+
+<span style="color: #64748b;"># Auto-shards layers proportionally across all connected laptops</span>
+model = cluster.load_sharded_model(<span style="color: #10b981;">"meta-llama/Llama-3-70B-Instruct"</span>)
+
+<span style="color: #64748b;"># Run high-speed distributed streaming</span>
+<span style="color: #f43f5e;">for</span> token <span style="color: #f43f5e;">in</span> model.stream(<span style="color: #10b981;">"Explain quantum computing"</span>):
+    print(token, end=<span style="color: #10b981;">""</span>, flush=<span style="color: #38bdf8;">True</span>)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main JavaScript Bootstrap -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
